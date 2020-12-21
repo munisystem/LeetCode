@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestMyAtoi(t *testing.T) {
+func Test(t *testing.T) {
 	testcase := []struct {
 		in  string
 		out int

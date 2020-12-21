@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-func TestLongestPalindromic(t *testing.T) {
+func Test(t *testing.T) {
 	testcase := []struct {
 		in  string
 		out string

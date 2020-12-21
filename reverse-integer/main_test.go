@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestReverse(t *testing.T) {
+func Test(t *testing.T) {
 	testcase := []struct {
 		in  int
 		out int

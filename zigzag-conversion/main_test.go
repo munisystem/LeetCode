@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestConvert(t *testing.T) {
+func Test(t *testing.T) {
 	testcase := []struct {
 		in1 string
 		in2 int
