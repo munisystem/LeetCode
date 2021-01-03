@@ -7,18 +7,16 @@ func main() {
 }
 
 func generate(numRows int) [][]int {
-	res := [][]int{}
+	res := make([][]int, numRows, numRows)
 	for i := 0; i < numRows; i++ {
-		r := []int{}
+		res[i] = make([]int, i+1, i+1)
 		for j := 0; j <= i; j++ {
-			s := 1
-			for k := 0; k < j; k++ {
-				s = s * (i - k)
-				s = s / (k + 1)
+			if j == 0 || j == i {
+				res[i][j] = 1
+			} else {
+				res[i][j] = res[i-1][j-1] + res[i-1][j]
 			}
-			r = append(r, s)
 		}
-		res = append(res, r)
 	}
 	return res
 }
