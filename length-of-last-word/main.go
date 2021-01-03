@@ -1,13 +1,14 @@
 package main
 
-import (
-	"strings"
-)
-
 func lengthOfLastWord(s string) int {
-	ss := strings.Split(strings.TrimSpace(s), " ")
-	if len(ss) == 0 {
-		return 0
+	l := 0
+	l, t := 0, len(s)-1
+	for t >= 0 && string(s[t]) == " " {
+		t--
 	}
-	return len(ss[len(ss)-1])
+	for t >= 0 && string(s[t]) != " " {
+		l++
+		t--
+	}
+	return l
 }
