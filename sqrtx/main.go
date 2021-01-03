@@ -1,10 +1,11 @@
 package main
 
 func mySqrt(x int) int {
-	for i := 1; i <= x; i++ {
-		if i*i <= x && (i+1)*(i+1) > x {
-			return i
-		}
+	// Newton's method
+	// ref. https://en.wikipedia.org/wiki/Integer_square_root#Using_only_integer_division
+	r := x
+	for r*r > x {
+		r = (r + x/r) / 2
 	}
-	return 0
+	return r
 }
