@@ -12,24 +12,22 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	root := &ListNode{}
 	p := root
 	p1, p2 := l1, l2
-	for !(p1 == nil && p2 == nil) {
+	for p1 != nil || p2 != nil {
 		if p1 == nil {
-			p.Val = p2.Val
-			p2 = p2.Next
+			p.Next = p2
+			break
 		} else if p2 == nil {
-			p.Val = p1.Val
-			p1 = p1.Next
-		} else if v1, v2 := p1.Val, p2.Val; v1 <= v2 {
-			p.Val = v1
+			p.Next = p1
+			break
+		}
+		if p1.Val <= p2.Val {
+			p.Next = p1
 			p1 = p1.Next
 		} else {
-			p.Val = p2.Val
+			p.Next = p2
 			p2 = p2.Next
 		}
-		if !(p1 == nil && p2 == nil) {
-			p.Next = &ListNode{}
-			p = p.Next
-		}
+		p = p.Next
 	}
-	return root
+	return root.Next
 }
