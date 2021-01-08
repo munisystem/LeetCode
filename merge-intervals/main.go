@@ -6,30 +6,20 @@ import (
 )
 
 func merge(intervals [][]int) [][]int {
-	m := make(map[int]int, 0)
-	starts := []int{}
-	for i := 0; i < len(intervals); i++ {
-		s, e := intervals[i][0], intervals[i][1]
-		if v, ok := m[s]; ok {
-			m[s] = int(math.Max(float64(v), float64(e)))
-		} else {
-			m[s] = e
-			starts = append(starts, s)
-		}
-	}
-	sort.Ints(starts)
+	sort.Slice(intervals, func(i, j int) bool { return intervals[i][0] < intervals[j][0] })
 
 	r := [][]int{}
-	s := starts[0]
-	e := m[s]
-	for i := 1; i < len(starts); i++ {
-		if ss := starts[i]; ss <= e {
-			e = int(math.Max(float64(e), float64(m[ss])))
+	s := intervals[0][0]
+	e := intervals[0][1]
+	for i := 1; i < len(intervals); i++ {
+		start, end := intervals[i][0], intervals[i][1]
+		if start <= e {
+			e = int(math.Max(float64(e), float64(end)))
 			continue
 		}
 		r = append(r, append([]int{}, s, e))
-		s = starts[i]
-		e = m[s]
+		s = start
+		e = end
 	}
 	r = append(r, append([]int{}, s, e))
 	return r
