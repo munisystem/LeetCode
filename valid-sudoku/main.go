@@ -1,10 +1,16 @@
 package main
 
 func isValidSudoku(board [][]byte) bool {
-	// validate rows
+	rows := make([]map[byte]interface{}, 9, 9)
+	columns := make([]map[byte]interface{}, 9, 9)
+	boxes := make([]map[byte]interface{}, 9, 9)
+	for i := 0; i < 9; i++ {
+		rows[i] = make(map[byte]interface{}, 0)
+		columns[i] = make(map[byte]interface{}, 0)
+		boxes[i] = make(map[byte]interface{}, 0)
+	}
 	for i := 0; i < len(board); i++ {
-		m := map[byte]interface{}{}
-		for j := 0; j < len(board); j++ {
+		for j := 0; i < len(board); i++ {
 			s := board[i][j]
 			if string(s) == "." {
 				continue
@@ -13,49 +19,21 @@ func isValidSudoku(board [][]byte) bool {
 			if s < 1 || s > 9 {
 				return false
 			}
-			if _, ok := m[s]; ok {
+			bi := (i/3)*3 + (j / 3)
+			if _, ok := rows[j][s]; ok {
 				return false
+			} else {
+				rows[j][s] = nil
 			}
-			m[s] = nil
-		}
-	}
-	// validate columns
-	for i := 0; i < len(board); i++ {
-		m := map[byte]interface{}{}
-		for j := 0; j < len(board); j++ {
-			s := board[j][i]
-			if string(s) == "." {
-				continue
-			}
-			s -= '0'
-			if s < 1 || s > 9 {
+			if _, ok := columns[i][s]; ok {
 				return false
+			} else {
+				columns[i][s] = nil
 			}
-			if _, ok := m[s]; ok {
+			if _, ok := boxes[bi][s]; ok {
 				return false
-			}
-			m[s] = nil
-		}
-	}
-	// validate boxes
-	for i := 0; i < len(board); i = i + 3 {
-		for j := 0; j < len(board); j = j + 3 {
-			m := map[byte]interface{}{}
-			for k := i; k < i+3; k++ {
-				for l := j; l < j+3; l++ {
-					s := board[k][l]
-					if string(s) == "." {
-						continue
-					}
-					s -= '0'
-					if s < 1 || s > 9 {
-						return false
-					}
-					if _, ok := m[s]; ok {
-						return false
-					}
-					m[s] = nil
-				}
+			} else {
+				boxes[bi][s] = nil
 			}
 		}
 	}
