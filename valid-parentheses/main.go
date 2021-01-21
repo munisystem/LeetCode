@@ -1,34 +1,27 @@
-package main
 
-var symbols map[string]string = map[string]string{
-	"(": ")",
-	"[": "]",
-	"{": "}",
+var parentheses = map[string]string{
+	")": "(",
+	"]": "[",
+	"}": "{",
 }
 
 func isValid(s string) bool {
-	if len(s) < 2 {
-		return false
-	}
-	q := []string{}
-	valid := true
-	for i := range s {
-		if _, ok := symbols[s[i:i+1]]; ok {
-			q = append(q, s[i:i+1])
-		} else {
-			if len(q) == 0 {
-				valid = false
-				break
-			} else if p := q[len(q)-1]; symbols[p] == s[i:i+1] {
-				q = q[0 : len(q)-1]
-			} else {
-				valid = false
-				break
-			}
+	stack := []string{}
+	for i := 0; i < len(s); i++ {
+		char := string(s[i])
+		if char == "(" || char == "[" || char == "{" {
+			stack = append(stack, char)
+			continue
 		}
+		if len(stack) == 0 {
+			return false
+		} else if stack[len(stack)-1] != parentheses[char] {
+			return false
+		}
+		stack = stack[:len(stack)-1]
 	}
-	if len(q) != 0 {
+	if len(stack) > 0 {
 		return false
 	}
-	return valid
+	return true
 }
