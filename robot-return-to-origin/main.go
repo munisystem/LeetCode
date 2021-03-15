@@ -1,12 +1,11 @@
 package main
 
 func judgeCircle(moves string) bool {
-	m := make(map[string]int, 4)
-	m["U"], m["D"], m["L"], m["R"] = 0, 0, 0, 0
+	t := make([]int, 26, 26)
 	for i := 0; i < len(moves); i++ {
-		m[string(moves[i])]++
+		t[moves[i]-'A']++
 	}
-	if m["U"] == m["D"] && m["L"] == m["R"] {
+	if t['U'-'A'] == t['D'-'A'] && t['L'-'A'] == t['R'-'A'] {
 		return true
 	}
 	return false
