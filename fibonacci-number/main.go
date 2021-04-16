@@ -1,15 +1,10 @@
 package main
 
-var mem = map[int]int{}
+import (
+	"math"
+)
 
 func fib(n int) int {
-	if v, ok := mem[n]; ok {
-		return v
-	}
-	if n <= 1 {
-		mem[n] = n
-		return mem[n]
-	}
-	mem[n] = fib(n-1) + fib(n-2)
-	return mem[n]
+	golden := (1.0 + math.Sqrt(5)) / 2
+	return int(math.Round(math.Pow(golden, float64(n)) / math.Sqrt(5)))
 }
