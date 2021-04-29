@@ -1,33 +1,26 @@
 package main
 
 type MinStack struct {
-	min   int
+	min   []int
 	stack []int
 }
 
-/** initialize your data structure here. */
 func Constructor() MinStack {
-	return MinStack{stack: []int{}}
+	return MinStack{min: []int{}, stack: []int{}}
 }
 
 func (this *MinStack) Push(val int) {
 	this.stack = append(this.stack, val)
-	if len(this.stack) == 1 || this.min > val {
-		this.min = val
+	if len(this.min) == 0 || val <= this.GetMin() {
+		this.min = append(this.min, val)
 	}
 }
 
 func (this *MinStack) Pop() {
-	elm := this.stack[len(this.stack)-1]
+	if this.Top() == this.GetMin() {
+		this.min = this.min[:len(this.min)-1]
+	}
 	this.stack = this.stack[:len(this.stack)-1]
-	if this.min != elm {
-		return
-	}
-	for i := 0; i < len(this.stack); i++ {
-		if i == 0 || this.min > this.stack[i] {
-			this.min = this.stack[i]
-		}
-	}
 }
 
 func (this *MinStack) Top() int {
@@ -35,5 +28,5 @@ func (this *MinStack) Top() int {
 }
 
 func (this *MinStack) GetMin() int {
-	return this.min
+	return this.min[len(this.min)-1]
 }
