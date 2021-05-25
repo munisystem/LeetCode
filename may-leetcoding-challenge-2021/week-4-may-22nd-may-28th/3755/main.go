@@ -2,32 +2,34 @@ package main
 
 import "strconv"
 
+var operators = map[string]interface{}{
+	"+": struct{}{},
+	"-": struct{}{},
+	"*": struct{}{},
+	"/": struct{}{},
+}
+
 func evalRPN(tokens []string) int {
 	queue := make([]int, 0, len(tokens))
 	for i := 0; i < len(tokens); i++ {
-		var a, b int
-		switch t := tokens[i]; t {
+		_, ok := operators[tokens[i]]
+		if !ok {
+			num, _ := strconv.ParseInt(tokens[i], 10, 0)
+			queue = append(queue, int(num))
+			continue
+		}
+		a, b := queue[len(queue)-2], queue[len(queue)-1]
+		queue = queue[:len(queue)-2]
+		switch tokens[i] {
 		case "+":
-			a, b, queue = pop(queue)
 			queue = append(queue, a+b)
 		case "-":
-			a, b, queue = pop(queue)
 			queue = append(queue, a-b)
 		case "*":
-			a, b, queue = pop(queue)
 			queue = append(queue, a*b)
 		case "/":
-			a, b, queue = pop(queue)
 			queue = append(queue, a/b)
-		default:
-			num, _ := strconv.ParseInt(t, 10, 0)
-			queue = append(queue, int(num))
 		}
 	}
 	return queue[0]
-}
-
-func pop(queue []int) (int, int, []int) {
-	a, b := queue[len(queue)-2], queue[len(queue)-1]
-	return a, b, queue[:len(queue)-2]
 }
