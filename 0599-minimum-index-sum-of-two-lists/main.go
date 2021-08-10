@@ -1,7 +1,7 @@
 package main
 
 import (
-	"sort"
+	"math"
 )
 
 func findRestaurant(list1 []string, list2 []string) []string {
@@ -9,33 +9,17 @@ func findRestaurant(list1 []string, list2 []string) []string {
 	for i := 0; i < len(list1); i++ {
 		m[list1[i]] = i
 	}
-
-	type kv struct {
-		Key   string
-		Value int
-	}
-	var kvs []kv
+	min := math.MaxInt32
+	var ans []string
 	for i := 0; i < len(list2); i++ {
 		j, ok := m[list2[i]]
-		if !ok {
-			continue
+		if ok && i+j <= min {
+			if i+j < min {
+				min = i + j
+				ans = []string{}
+			}
+			ans = append(ans, list2[i])
 		}
-		kvs = append(kvs, kv{Key: list2[i], Value: i + j})
-	}
-	sort.Slice(kvs, func(i, j int) bool {
-		return kvs[i].Value < kvs[j].Value
-	})
-
-	var ans []string
-	var min int
-	for i := 0; i < len(kvs); i++ {
-		if i == 0 {
-			min = kvs[i].Value
-		}
-		if min < kvs[i].Value {
-			break
-		}
-		ans = append(ans, kvs[i].Key)
 	}
 	return ans
 }
